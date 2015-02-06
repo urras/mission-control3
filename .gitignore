@@ -58,3 +58,6 @@ venv/
 
 #Actual Config File 
 config.py
+
+#Database files
+*.sqlite
