@@ -4,7 +4,7 @@ from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
 from config import config
 
-boostrap = Bootstrap()
+bootstrap = Bootstrap()
 moment = Moment()
 db = SQLAlchemy()
 
