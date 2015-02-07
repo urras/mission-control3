@@ -18,7 +18,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">GLADOS Mission Control</a>
+            <a class="navbar-brand" ref="{{ url_for('main.index') }}">GLADOS Mission Control</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -53,3 +53,9 @@
 {{ super() }}
 {{ moment.include_moment() }}
 {% endblock %}
+
+{% block styles -%}
+{{super()}}
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href="/static/header.css" rel="stylesheet">
+{% endblock styles %}

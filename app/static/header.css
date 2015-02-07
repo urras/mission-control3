@@ -1,0 +1,15 @@
+@font-face { 
+	font-family: 'Nasalization'; 
+	src: url('./fonts/nasalization.eot?#iefix') format('embedded-opentype'), url('./fonts/nasalization.svg#Nasalization') format('svg'), url('./fonts/nasalization.woff') format('woff'), url('./fonts/nasalization.ttf') format('truetype'); 
+	font-weight: normal; 
+	font-style: normal;
+}
+
+
+.navbar-brand {
+	font-family: Nasalization; !IMPORTANT
+}
+
+body {
+	background-color: #f1f1f1; !IMPORTANT
+}	

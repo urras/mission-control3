@@ -61,3 +61,7 @@ config.py
 
 #Database files
 *.sqlite
+
+#Vim swap files
+*.swp
+*.swo
