@@ -1,5 +1,5 @@
 import unittest
-from app.models import User
+from app.models import User, Role, Permission
 
 password = 'thisisatestpass'
 wrong_password = 'thisisthewrongpass'
@@ -20,3 +20,8 @@ class UserAuthTestCase(unittest.TestCase):
         testuser2 = User(password = password)
         self.assertFalse(testuser.password_hash == testuser2.password_hash)
 
+    def test_permissions(self):
+        Role.insert_roles()
+        u = User(email='davidloh@buffalo.edu', password=password)
+        self.assertTrue(u.can(Permission.VIEW_DATA))
+        self.assertFalse(u.can(Permission.ADMINISTER))
