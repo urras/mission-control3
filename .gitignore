@@ -65,3 +65,6 @@ config.py
 #Vim swap files
 *.swp
 *.swo
+
+#Mac stuff
+.DS_Store
