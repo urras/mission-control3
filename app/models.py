@@ -1,7 +1,8 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db, login_manager
+from . import db, login_manager, mdb
 from flask.ext.login import UserMixin
+from time import strftime
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -43,7 +44,7 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     def __repr__(self):
-        return '<User %r>' %self.username
+        return self.username
     
     @property
     def password(self):
@@ -78,3 +79,6 @@ class Permission:
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+class ChartData():
+    dotomorrow = 'im tired'

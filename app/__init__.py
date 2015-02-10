@@ -4,11 +4,13 @@ from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from config import config
+from flask.ext.pymongo import PyMongo
 
 #Initialize object methods
 bootstrap = Bootstrap()
 moment = Moment()
 db = SQLAlchemy()
+mdb = PyMongo()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong' #Verify UserAgent & IP address of returning users
 login_manager.login_view = 'auth.login'
@@ -22,6 +24,7 @@ def create_app(config_name):
     moment.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
+    mdb.init_app(app)
 
     #Register main web interface as blueprint
     from main import main as main_blueprint
