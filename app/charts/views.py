@@ -1,7 +1,9 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, jsonify
 from flask.ext.login import login_required
 from . import charts
+from ..models import TelemData, mongo_jsonify
 import pygal
+import json
 
 @charts.route('/test', methods=['GET', 'POST'])
 def test():
@@ -13,3 +15,8 @@ def test():
     line_chart.add('IE',      [85.8, 84.6, 84.7, 74.5,   66, 58.6, 54.7, 44.8, 36.2, 26.6, 20.1])
     line_chart.add('Others',  [14.2, 15.4, 15.3,  8.9,    9, 10.4,  8.9,  5.8,  6.7,  6.8,  7.5])
     return line_chart.render_response()
+
+@charts.route('/test2')
+def test2():
+    data = TelemData()
+    return mongo_jsonify(data.getMostRecent())

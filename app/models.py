@@ -3,6 +3,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db, login_manager, mdb
 from flask.ext.login import UserMixin
 from time import strftime
+import json
+from bson.json_util import dumps
+from flask import Response
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -80,5 +83,12 @@ class Permission:
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-class ChartData():
-    dotomorrow = 'im tired'
+def mongo_jsonify(data):
+    return Response(dumps(data), mimetype='application/json')
+
+class TelemData():
+    def getMostRecent(self):
+        obj = mdb.db.data.find({}, {"_id": False}).sort([{"timestamp", -1}]).limit(1)
+        obj = json.loads(dumps(obj[0]))
+        return obj
+
