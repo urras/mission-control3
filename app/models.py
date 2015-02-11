@@ -86,13 +86,36 @@ def load_user(user_id):
 def mongo_jsonify(data):
     return Response(dumps(data), mimetype='application/json')
 
+
+
 class TelemData():
     def getMostRecent(self, amount=1):
+        """Return entire recently inserted JSON data, in descending order.
+
+        Arguments:
+        amount (int): The amount of docs you want returned. (default 1)
+        
+        Returns:
+        dict: All data is returned as valid JSON, in a dictionary.
+
+        Raises:
+        KeyError: If there is no data from the MongoDB database.
+        """
         obj = mdb.db.data.find({}, {"_id": False}).sort([{"timestamp", -1}]).limit(amount)
         obj = json.loads(dumps(obj))
         return obj
 
     def getField(self, field, subfield=None, amount=5):
+        """Get the requested field from the most recently inserted JSON data, in descending order
+
+        Arguments:
+        amount (int): The amount of the specified field you want returned (default 5)
+
+        Returns:
+        dict: All data is returned in a dictionary.
+
+        None: No data for the requested field was found.
+        """
         data = self.getMostRecent(amount)
         datar = []
         for doc in data:

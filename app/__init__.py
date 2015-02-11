@@ -35,7 +35,7 @@ def create_app(config_name):
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     #Register chart rendering front
-    from charts import charts as charts_blueprint
-    app.register_blueprint(charts_blueprint, url_prefix='/charts')
+    from rest import rest as rest_blueprint
+    app.register_blueprint(rest_blueprint, url_prefix='/rest')
 
     return app

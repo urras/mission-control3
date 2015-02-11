@@ -1,11 +1,12 @@
 from flask import render_template, redirect, request, url_for, jsonify
 from flask.ext.login import login_required
-from . import charts
+from . import rest, data
+from flask import Response
 from ..models import TelemData, mongo_jsonify
 import pygal
 import json
 
-@charts.route('/test', methods=['GET', 'POST'])
+@rest.route('/test', methods=['GET', 'POST'])
 def test():
     line_chart = pygal.Line()
     line_chart.title = 'Browser usage evolution (in %)'
@@ -16,8 +17,17 @@ def test():
     line_chart.add('Others',  [14.2, 15.4, 15.3,  8.9,    9, 10.4,  8.9,  5.8,  6.7,  6.8,  7.5])
     return line_chart.render_response()
 
-@charts.route('/test2')
+@rest.route('/test2')
 def test2():
     data = TelemData()
     #return mongo_jsonify(data.getField("power.top2_voltage", 1))
     return mongo_jsonify(data.getMostRecent())
+
+@rest.route('/charts.json', methods=['GET', 'POST'])
+def generate_charts():
+    cdh_chart = pygal.Line()
+    cdh_chart.title = "CDH"
+    cdh_chart.x_labs = data.getField("timestamp")
+    cdh_chart.add('CPU Usage', data.getField("cdh", "cpu_usage"))
+    print data.getField("cdh", "cpu_usage")
+    return Response(str(cdh_chart.render()), mimetype="text/plain")
