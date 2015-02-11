@@ -19,4 +19,5 @@ def test():
 @charts.route('/test2')
 def test2():
     data = TelemData()
+    #return mongo_jsonify(data.getField("power.top2_voltage", 1))
     return mongo_jsonify(data.getMostRecent())

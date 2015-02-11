@@ -87,8 +87,20 @@ def mongo_jsonify(data):
     return Response(dumps(data), mimetype='application/json')
 
 class TelemData():
-    def getMostRecent(self):
-        obj = mdb.db.data.find({}, {"_id": False}).sort([{"timestamp", -1}]).limit(1)
-        obj = json.loads(dumps(obj[0]))
+    def getMostRecent(self, amount=1):
+        obj = mdb.db.data.find({}, {"_id": False}).sort([{"timestamp", -1}]).limit(amount)
+        obj = json.loads(dumps(obj))
         return obj
 
+    def getField(self, field, subfield=None, amount=5):
+        data = self.getMostRecent(amount)
+        datar = []
+        for doc in data:
+            try:
+                if subfield == None:
+                    datar.append(doc[field])
+                else:
+                    datar.append(doc[field][subfield])
+            except KeyError:
+                return None
+        return datar
