@@ -27,6 +27,7 @@ def test2():
 def generate_charts():
     cdh_chart = pygal.Line()
     cdh_chart.title = "CDH"
+    data.getField("sdfsdf")
     cdh_chart.x_labs = data.getField("timestamp")
     cdh_chart.add('CPU Usage', data.getField("cdh", "cpu_usage"))
     print data.getField("cdh", "cpu_usage")

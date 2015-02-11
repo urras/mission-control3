@@ -114,7 +114,8 @@ class TelemData():
         Returns:
         dict: All data is returned in a dictionary.
 
-        None: No data for the requested field was found.
+        Raises:
+        KeyError: No data for the requested field was found.
         """
         data = self.getMostRecent(amount)
         datar = []
@@ -125,5 +126,6 @@ class TelemData():
                 else:
                     datar.append(doc[field][subfield])
             except KeyError:
-                return None
+                raise
         return datar
+
