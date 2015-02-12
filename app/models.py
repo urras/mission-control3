@@ -6,6 +6,9 @@ from time import strftime
 import json
 from bson.json_util import dumps
 from flask import Response
+from datetime import datetime
+import pygal
+from pygal.style import Style, CleanStyle
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -74,7 +77,7 @@ class User(UserMixin, db.Model):
 class Permission:
     VIEW_DATA = 0x01
     RECV_NOTIFICATIONS = 0x2
-    EXEC_TESTS = 0X03
+    EXEC_TESTS = 0x03
     EXEC_COMMANDS = 0x03
     ADMINISTER = 0x08
 
@@ -112,7 +115,7 @@ class TelemData():
         amount (int): The amount of the specified field you want returned (default 5)
 
         Returns:
-        dict: All data is returned in a dictionary.
+        dict: All JSON data is returned in a dictionary.
 
         Raises:
         KeyError: No data for the requested field was found.
@@ -129,3 +132,52 @@ class TelemData():
                 raise
         return datar
 
+    def fixTime(self, dictionary):
+        """Take the inputted list of UNIX timestamps and convert them into H-M-S strings
+
+        Arguments:
+        dictionary (list): An array of UNIX timestamps
+
+        Returns:
+        fixed: Converted timestamps in H-M-S format.
+
+        Raises:
+        ValueError: An object in the array was not a proper UNIX timestamp
+        
+        TypeError: An object in the array was not a proper UNIX timestamp
+        """
+        fixed = []
+        for time in dictionary:
+            convert = datetime.fromtimestamp(time).strftime('%H:%M:%S')
+            fixed.append(convert)
+        return fixed
+        
+class ChartRender():
+
+    def renderChart(self, chart_type, value_name, values, range=(1,100), style=CleanStyle, x_name="timestamp", **kwargs):
+        """Take data points given in an array and generate a SVG graph with Pygal. Fully customizable.
+
+        Arguments:
+        chart_type: The type of Pygal chart (ex. Line, Bar) (must be capitalized!)
+
+        value_name: Name of the plotted data.
+
+        range: The range of the y-axis. Leave blank to auto-scale. (default: 1-100)
+
+        values: An array of the data points.
+
+        style: The PyGal style to be used to decorate the graph. Must be defined in the ChartRender() class. (default: default)
+
+        x_name: The name of the x-axis labels (default: Data timestamps)
+
+        Returns:
+        chart: An SVG file in string format of the graphed data points.
+
+        Raises:
+        To be documented. A lot.
+        """
+        function = getattr(pygal, chart_type)
+        chart = function(range=range, style=style, x_label_rotation=20)
+        chart.x_labels=x_name
+        chart.add(value_name, values)
+        return str(chart.render())
