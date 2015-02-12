@@ -6,6 +6,10 @@ from flask.ext.login import LoginManager
 from config import config
 from flask.ext.pymongo import PyMongo
 
+"""
+Mission Control is a web interface application written in Flask to be used to for the Glint Analyzing Data Observation Satellite (GLADOS) to be launched in 2017.
+"""
+
 #Initialize object methods
 bootstrap = Bootstrap()
 moment = Moment()
